@@ -7,9 +7,9 @@ namespace SELU
 {
     class SuspiciousEdit
     {
-        public int id;
-        public int revid;
-        public int score;
+        public string id;
+        public string revid;
+        public string score;
         public string wiki;
         public string date;
         public string summary;
@@ -51,9 +51,9 @@ namespace SELU
                         throw new Exception("Wrong number of result columns");
                     }
                     SuspiciousEdit edit = new SuspiciousEdit();
-                    edit.id = (int)dr[0];
-                    edit.revid = (int)dr[1];
-                    edit.score = (int)dr[2];
+                    edit.id = dr[0].ToString();
+                    edit.revid = dr[1].ToString();
+                    edit.score =  dr[2].ToString();
                     edit.wiki = dr[3].ToString();
                     //edit.date = (DateTime)dr[4];
                     edit.summary = dr[5].ToString();
@@ -72,7 +72,7 @@ namespace SELU
                     }
                     string revid = result.Substring(result.IndexOf("<rev revid=\"") + "<rev revid=\"".Length);
                     revid = revid.Substring(0, revid.IndexOf("\""));
-                    if (int.Parse(revid) != ed.revid)
+                    if (revid != ed.revid)
                     {
                         Console.WriteLine("NOT " + ed.page);
                         query = new Npgsql.NpgsqlCommand("update se set is_top=false where id=" + ed.id + ";");
