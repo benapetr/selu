@@ -4167,32 +4167,6 @@ namespace DotNetWikiBot
 		/// <summary>Local cache directory.</summary>
 		static string cacheDir = Bot.cacheDir + Path.DirectorySeparatorChar;
 
-		/// <summary>Overriding GetEntity() function to implement local cache.</summary>
-		/// <param name="absoluteUri">Absolute URI of requested entity.</param>
-		/// <param name="role">User's role for accessing specified URI.</param>
-		/// <param name="ofObjectToReturn">Type of object to return.</param>
-		/// <returns>Returns object or requested type.</returns>
-		public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
-		{
-			if (absoluteUri.ToString().EndsWith("-/W3C/DTD XHTML 1.0 Transitional/EN"))
-				return new FileStream(XmlUrlResolverWithCache.cacheDir + "xhtml1-transitional.dtd",
-					FileMode.Open, FileAccess.Read, FileShare.Read);
-			if (absoluteUri.ToString().EndsWith("-//W3C//ENTITIES Latin 1 for XHTML//EN"))
-				return new FileStream(XmlUrlResolverWithCache.cacheDir + "xhtml-lat1.ent",
-					FileMode.Open, FileAccess.Read, FileShare.Read);
-			if (absoluteUri.ToString().EndsWith("-//W3C//ENTITIES Symbols for XHTML//EN"))
-				return new FileStream(XmlUrlResolverWithCache.cacheDir + "xhtml-symbol.ent",
-					FileMode.Open, FileAccess.Read, FileShare.Read);
-			if (absoluteUri.ToString().EndsWith("-//W3C//ENTITIES Special for XHTML//EN"))
-				return new FileStream(XmlUrlResolverWithCache.cacheDir + "xhtml-special.ent",
-					FileMode.Open, FileAccess.Read, FileShare.Read);
-			for (int i = 0; i < XmlUrlResolverWithCache.cachedFilesURIs.Length; i++)
-				if (absoluteUri.ToString().EndsWith(XmlUrlResolverWithCache.cachedFiles[i]))
-					return new FileStream(XmlUrlResolverWithCache.cacheDir +
-						XmlUrlResolverWithCache.cachedFiles[i],
-						FileMode.Open, FileAccess.Read, FileShare.Read);
-			return base.GetEntity(absoluteUri, role, ofObjectToReturn);
-		}
 	}
 
 	/// <summary>Class defines a Bot instance, it contains most general configuration settings
