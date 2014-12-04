@@ -64,7 +64,7 @@ namespace SELU
                 foreach (SuspiciousEdit ed in edits)
                 {
                     Log("Processing edit to " + ed.page);
-                    string result = new System.Net.WebClient().DownloadString("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + System.Web.HttpUtility.UrlEncode(ed.page) + "&rvprop=timestamp|user|comment|content&format=xml");
+                    string result = new System.Net.WebClient().DownloadString("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + System.Web.HttpUtility.UrlEncode(ed.page) + "&rvprop=ids&format=xml");
                     if (!result.Contains("<rev revid=\""))
                     {
                         Log("There is no revid for " + ed.page);
