@@ -65,6 +65,13 @@ namespace SELU
                 {
                     Log("Processing edit to " + ed.page);
                     string result = new System.Net.WebClient().DownloadString("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" +ed.page +"&rvprop=ids&format=xml");
+                    if (result.Contains("missing="))
+                    {
+                        query = new Npgsql.NpgsqlCommand("delete from se where id=" + ed.id + ";", connection);
+                        int r = query.ExecuteNonQuery();
+                        if (r != 1)
+                            Log("ERROR: Affected " + r + " rows!!"); 
+                    }
                     if (!result.Contains("<rev revid=\""))
                     {
                         Log("There is no revid for " + ed.page);
