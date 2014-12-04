@@ -11,7 +11,7 @@ namespace SELU
         public int revid;
         public int score;
         public string wiki;
-        public DateTime date;
+        public string date;
         public string summary;
         public string page;
     }
@@ -55,7 +55,7 @@ namespace SELU
                     edit.revid = (int)dr[1];
                     edit.score = (int)dr[2];
                     edit.wiki = dr[3].ToString();
-                    edit.date = (DateTime)dr[4];
+                    //edit.date = (DateTime)dr[4];
                     edit.summary = dr[5].ToString();
                     edit.page = dr[6].ToString();
                     edits.Add(edit);
