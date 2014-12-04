@@ -75,6 +75,10 @@ namespace SELU
                     if (int.Parse(revid) != ed.revid)
                     {
                         Console.WriteLine("NOT " + ed.page);
+                        query = new Npgsql.NpgsqlCommand("update se set is_top=false where id=" + ed.id + ";");
+                        int r = query.ExecuteNonQuery();
+                        if (r != 1)
+                            Log("ERROR: Affected " + r + " rows!!"); 
                     }
                     else
                     {
