@@ -61,7 +61,7 @@ namespace SELU
                     edits.Add(edit);
                 }
                 Log("Logging in to wiki");
-                DotNetWikiBot.Site wiki = new DotNetWikiBot.Site("en.wikipedia.org");
+                DotNetWikiBot.Site wiki = new DotNetWikiBot.Site("en.wikipedia.org", "", "");
                 foreach (SuspiciousEdit ed in edits)
                 {
                     Log("Processing edit to " + ed.page);
