@@ -41,7 +41,8 @@ namespace SELU
                 Npgsql.NpgsqlConnection connection = new Npgsql.NpgsqlConnection(connection_sb);
                 connection.Open();
                 Log("Getting a list of edits from db");
-                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select * from suspicious_edits_p;", connection);
+                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select * from suspicious_edits_p where is_top = true;", connection);
+
 
             }
             catch (Exception fail)
