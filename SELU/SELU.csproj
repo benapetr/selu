@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dnwb">
-      <HintPath>.\dnwb.dll</HintPath>
-    </Reference>
     <Reference Include="Npgsql">
       <HintPath>.\Npgsql.dll</HintPath>
     </Reference>

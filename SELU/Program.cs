@@ -60,11 +60,25 @@ namespace SELU
                     edit.page = dr[6].ToString();
                     edits.Add(edit);
                 }
-                Log("Logging in to wiki");
-                DotNetWikiBot.Site wiki = new DotNetWikiBot.Site("en.wikipedia.org", "", "");
                 foreach (SuspiciousEdit ed in edits)
                 {
                     Log("Processing edit to " + ed.page);
+                    string result = new System.Net.WebClient().DownloadString("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=" + System.Web.HttpUtility.UrlEncode(ed.page) + "&rvprop=timestamp|user|comment|content&format=xml");
+                    if (!result.Contains("<rev revid=\""))
+                    {
+                        Log("There is no revid for " + ed.page);
+                        continue;
+                    }
+                    string revid = result.Substring(result.IndexOf("<rev revid=\"") + "<rev revid=\"".Length);
+                    revid = revid.Substring(0, revid.IndexOf("\""));
+                    if (int.Parse(revid) != ed.revid)
+                    {
+                        Console.WriteLine("NOT " + ed.page);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ignoring " + ed.page);
+                    }
                 }
                 connection.Close();
 
