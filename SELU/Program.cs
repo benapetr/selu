@@ -18,6 +18,7 @@ namespace SELU
 
     class Program
     {
+        public static List<SuspiciousEdit> edits = new List<SuspiciousEdit>();
         private static void _log(string message)
         {
             Console.WriteLine(DateTime.Now.ToString() + ": " + message);
@@ -41,7 +42,7 @@ namespace SELU
                 Npgsql.NpgsqlConnection connection = new Npgsql.NpgsqlConnection(connection_sb);
                 connection.Open();
                 Log("Getting a list of edits from db");
-                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select id, revid, score, wiki, date, summary, page from suspicious_edits_p where is_top = true;", connection);
+                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select id, revid, score, wiki, date, summary, page from suspicious_edits_p where is_top = true and wiki = 'en.wikipedia';", connection);
                 Npgsql.NpgsqlDataReader dr = query.ExecuteReader();
                 while (dr.Read())
                 {
@@ -49,7 +50,21 @@ namespace SELU
                     {
                         throw new Exception("Wrong number of result columns");
                     }
-                    Console.WriteLine(dr[0].ToString());
+                    SuspiciousEdit edit = new SuspiciousEdit();
+                    edit.id = (int)dr[0];
+                    edit.revid = (int)dr[1];
+                    edit.score = (int)dr[2];
+                    edit.wiki = dr[3].ToString();
+                    edit.date = (DateTime)dr[4];
+                    edit.summary = dr[5].ToString();
+                    edit.page = dr[6].ToString();
+                    edits.Add(edit);
+                }
+                Log("Logging in to wiki");
+                DotNetWikiBot.Site wiki = new DotNetWikiBot.Site("en.wikipedia.org");
+                foreach (SuspiciousEdit ed in edits)
+                {
+                    Log("Processing edit to " + ed.page);
                 }
                 connection.Close();
 
