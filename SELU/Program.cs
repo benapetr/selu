@@ -41,8 +41,17 @@ namespace SELU
                 Npgsql.NpgsqlConnection connection = new Npgsql.NpgsqlConnection(connection_sb);
                 connection.Open();
                 Log("Getting a list of edits from db");
-                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select * from suspicious_edits_p where is_top = true;", connection);
-
+                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select id, revid, score, wiki, date, summary, page from suspicious_edits_p where is_top = true;", connection);
+                Npgsql.NpgsqlDataReader dr = query.ExecuteReader();
+                while (dr.Read())
+                {
+                    if (dr.FieldCount < 7)
+                    {
+                        throw new Exception("Wrong number of result columns");
+                    }
+                    Console.WriteLine(dr[0].ToString());
+                }
+                connection.Close();
 
             }
             catch (Exception fail)
