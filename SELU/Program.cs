@@ -42,7 +42,7 @@ namespace SELU
                 Npgsql.NpgsqlConnection connection = new Npgsql.NpgsqlConnection(connection_sb);
                 connection.Open();
                 Log("Getting a list of edits from db");
-                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select id, revid, score, wiki, date, summary, page from suspicious_edits_p where is_top = true and wiki = 'en.wikipedia';", connection);
+                Npgsql.NpgsqlCommand query = new Npgsql.NpgsqlCommand("select id, revid, score, wiki, date, summary, page from suspicious_edits_p where is_top = true and wiki = 'en.wikipedia.org';", connection);
                 Npgsql.NpgsqlDataReader dr = query.ExecuteReader();
                 while (dr.Read())
                 {
@@ -60,6 +60,7 @@ namespace SELU
                     edit.page = dr[6].ToString();
                     edits.Add(edit);
                 }
+                Log("Processing: " + edits.Count);
                 foreach (SuspiciousEdit ed in edits)
                 {
                     Log("Processing edit to " + ed.page);
